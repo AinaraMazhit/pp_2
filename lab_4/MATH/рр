@@ -1,0 +1,36 @@
+import matplotlib.pyplot as plt
+import networkx as nx
+
+def draw_block_diagram():
+    G = nx.DiGraph()
+    
+    # Adding nodes (blocks)
+    G.add_node("Reactant A (Input)", pos=(0, 3))
+    G.add_node("Furnace", pos=(2, 3))
+    G.add_node("Fuel Control (FC)", pos=(1, 4))
+    G.add_node("Reactor", pos=(4, 3))
+    G.add_node("Cooling Water Control", pos=(5, 4))
+    G.add_node("Temperature Sensor (TT 101)", pos=(4, 2))
+    G.add_node("Temperature Controller (TC 101)", pos=(2, 1))
+    G.add_node("Product (Output)", pos=(6, 3))
+    
+    # Adding edges (connections)
+    edges = [
+        ("Reactant A (Input)", "Furnace"),
+        ("Fuel Control (FC)", "Furnace"),
+        ("Furnace", "Reactor"),
+        ("Reactor", "Cooling Water Control"),
+        ("Reactor", "Temperature Sensor (TT 101)"),
+        ("Temperature Sensor (TT 101)", "Temperature Controller (TC 101)"),
+        ("Temperature Controller (TC 101)", "Fuel Control (FC)"),
+        ("Reactor", "Product (Output)")
+    ]
+    G.add_edges_from(edges)
+    
+    pos = nx.get_node_attributes(G, 'pos')
+    plt.figure(figsize=(8, 5))
+    nx.draw(G, pos, with_labels=True, node_size=5000, node_color='lightblue', edge_color='black', font_size=10)
+    plt.title("Block Diagram of Reactor Control System")
+    plt.show()
+
+draw_block_diagram()
